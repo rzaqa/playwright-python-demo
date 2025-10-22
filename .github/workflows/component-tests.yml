@@ -12,6 +12,7 @@ on:
 env:
   BASE_URL: https://saleor-dashboard-228462058101.europe-central2.run.app/
   GRAPHQL_URL: https://saleor-228462058101.europe-central2.run.app/graphql/
+  ENV_TYPE: CI
 
 jobs:
   component-tests:

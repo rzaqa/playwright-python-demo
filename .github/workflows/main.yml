@@ -1,0 +1,15 @@
+# .github/workflows/main.yml
+name: Main Pipeline
+on:
+  push:
+    branches: [ main, develop ]
+
+jobs:
+  precheck:
+    uses: ./.github/workflows/precheck.yml
+    with:
+      python-version: "3.13"
+
+  component-tests:
+    needs: precheck
+    uses: ./.github/workflows/component-tests.yml

@@ -1,0 +1,52 @@
+name: Component UI Tests
+
+on:
+  workflow_dispatch:     # manual trigger
+  workflow_call:              # 👈 reusable workflow
+    inputs:
+      python-version:
+        description: "Python version to use"
+        required: false
+        default: "3.13"
+        type: string          # 👈 required for schema validation
+
+env:
+  BASE_URL: https://saleor-dashboard-228462058101.europe-central2.run.app/
+  GRAPHQL_URL: https://saleor-228462058101.europe-central2.run.app/graphql/
+
+jobs:
+  component-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛒 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ inputs.python-version }}
+
+      - name: 🧰 Install dependencies
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 🎭 Install Playwright browsers
+        run: |
+          source .venv/bin/activate
+          playwright install --with-deps chromium
+
+      - name: 🧪 Run Component UI tests
+        run: |
+          source .venv/bin/activate
+          pytest tests/ui/login/test_login_page_elements.py -v --alluredir=allure-results
+
+      - name: 📦 Upload Allure results as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results

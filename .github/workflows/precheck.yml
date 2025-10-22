@@ -1,0 +1,29 @@
+name: Precheck Backend
+
+on:
+  workflow_dispatch:     # manual trigger
+  workflow_call:         # reusable by other workflows
+    inputs:
+      python-version:
+        description: "Python version to use"
+        required: false
+        default: "3.13"
+        type: string
+
+env:
+  BASE_URL: https://saleor-dashboard-228462058101.europe-central2.run.app/
+  GRAPHQL_URL: https://saleor-228462058101.europe-central2.run.app/graphql/
+
+jobs:
+  precheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ inputs.python-version }}
+      - run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install -r requirements.txt
+          pytest utils/precheck.py::test_verify_backend_alive -v

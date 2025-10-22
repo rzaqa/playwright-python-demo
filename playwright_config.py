@@ -1,4 +1,5 @@
 import os
+import re
 
 from dotenv import load_dotenv
 
@@ -21,6 +22,16 @@ BROWSERS = ["chromium"]
 TESTS_DIR = "tests"
 REPORTS_DIR = "test-results"
 
+# Clean API base from dashboard URL
+def derive_graphql_url(base_url: str) -> str:
+    api_base = re.sub(r"-dashboard", "", base_url.rstrip("/"))
+    return api_base + "/graphql/"
+
+
+# Base URL
+BASE_URL = os.getenv("BASE_URL", "https://saleor-dashboard-228462058101.europe-central2.run.app/")
+
+
 config = {
     "env_type": ENV_TYPE,
     "headless": HEADLESS,
@@ -28,5 +39,8 @@ config = {
     "timeout": DEFAULT_TIMEOUT,
     "tests_dir": TESTS_DIR,
     "reports_dir": REPORTS_DIR,
-    "base_url": os.getenv("BASE_URL", "https://saleor-dashboard-228462058101.europe-central2.run.app/"),
+    "base_url": BASE_URL,
+    "graphql_url": os.getenv("GRAPHQL_URL", derive_graphql_url(BASE_URL)),
 }
+
+

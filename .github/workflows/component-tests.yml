@@ -43,3 +43,10 @@ jobs:
         run: |
           source .venv/bin/activate
           pytest tests/ui/login/test_login_page_elements.py -v --alluredir=allure-results
+
+      - name: 📦 Upload Allure results
+        if: always()  # upload even if tests fail
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results

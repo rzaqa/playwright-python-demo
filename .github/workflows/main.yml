@@ -28,6 +28,7 @@ jobs:
   deploy-report:
     name: 🚀 Deploy Allure Report
     needs: component-tests
+    if: always()  # 👈 ensures Allure deployment runs even if tests fail
     uses: ./.github/workflows/deploy-allure.yml
     with:
       report-name: allure-results

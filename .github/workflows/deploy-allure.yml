@@ -25,10 +25,10 @@ jobs:
         with:
           fetch-depth: 0   # required for gh-pages
 
-      - name: 📦 Download Allure results
+      - name: 📥 Download Allure results
         uses: actions/download-artifact@v4
         with:
-          name: ${{ inputs.report-name }}
+          name: allure-results
           path: allure-results
 
       - name: 🧰 Install Allure CLI

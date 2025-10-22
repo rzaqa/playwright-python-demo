@@ -1,0 +1,18 @@
+feature: "Login Page"
+description: "UI requirements for the Saleor login page"
+version: "1.0"
+requirements:
+  - id: UI-LOGIN-001
+    title: "Page layout"
+    description: "Sign-In page displays all essential elements correctly"
+    acceptance:
+      - "Saleor logo is visible"
+      - "Title 'Sign In' is displayed"
+      - "Email address field with placeholder"
+      - "Password field with placeholder"
+      - "Show/Hide password button"
+      - "Forgot password? link"
+      - "Sign In button"
+    priority: High
+    test_files:
+      - "tests/ui/login/test_login_page_elements.py"

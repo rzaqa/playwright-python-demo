@@ -4,7 +4,12 @@ name: Main Pipeline
 on:
   push:
     branches: [ main, develop ]
-  workflow_dispatch:
+  pull_request:            # 👈 runs automatically when PR is created or updated
+    branches: [ main, develop ]
+  workflow_dispatch:       # manual trigger still available
+
+permissions:
+  contents: write
 
 jobs:
   precheck:
@@ -21,9 +26,10 @@ jobs:
       python-version: "3.13"
 
   deploy-report:
-     name: 🚀 Deploy Allure Report
-     needs: component-tests
-     uses: ./.github/workflows/deploy-allure.yml
-     with:
-       report-name: allure-results
-       publish-dir: component-tests
+    name: 🚀 Deploy Allure Report
+    needs: component-tests
+    if: always()  # 👈 ensures Allure deployment runs even if tests fail
+    uses: ./.github/workflows/deploy-allure.yml
+    with:
+      report-name: allure-results
+      publish-dir: component-tests

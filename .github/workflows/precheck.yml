@@ -25,5 +25,6 @@ jobs:
       - run: |
           python -m venv .venv
           source .venv/bin/activate
+          export PYTHONPATH=.
           pip install -r requirements.txt
           pytest utils/precheck.py::test_verify_backend_alive -v

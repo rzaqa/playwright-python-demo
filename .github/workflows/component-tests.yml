@@ -1,14 +1,13 @@
 name: Component UI Tests
 
 on:
-  workflow_dispatch:     # manual trigger
-  workflow_call:              # 👈 reusable workflow
+  workflow_call:
     inputs:
       python-version:
         description: "Python version to use"
         required: false
         default: "3.13"
-        type: string          # 👈 required for schema validation
+        type: string
 
 env:
   BASE_URL: https://saleor-dashboard-228462058101.europe-central2.run.app/
@@ -43,10 +42,3 @@ jobs:
         run: |
           source .venv/bin/activate
           pytest tests/ui/login/test_login_page_elements.py -v --alluredir=allure-results
-
-      - name: 📦 Upload Allure results as artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-results
-          path: allure-results

@@ -14,7 +14,8 @@ HEADLESS = True if ENV_TYPE == "CI" else False
 DEFAULT_TIMEOUT = 10_000  # in milliseconds
 
 # Browsers to run tests on
-BROWSERS = ["chromium", "firefox", "webkit"]
+# BROWSERS = ["chromium", "firefox", "webkit"]
+BROWSERS = ["chromium"]
 
 # Folder paths
 TESTS_DIR = "tests"

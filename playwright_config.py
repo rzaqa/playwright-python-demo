@@ -24,7 +24,7 @@ REPORTS_DIR = "test-results"
 
 # Clean API base from dashboard URL
 def derive_graphql_url(base_url: str) -> str:
-    api_base = re.sub(r"-dashboard", "", base_url.rstrip("/"))
+    api_base = str.replace(r"-dashboard", "", base_url.rstrip("/"))
     return api_base + "/graphql/"
 
 
@@ -41,6 +41,8 @@ config = {
     "reports_dir": REPORTS_DIR,
     "base_url": BASE_URL,
     "graphql_url": os.getenv("GRAPHQL_URL", derive_graphql_url(BASE_URL)),
+    "admin_name": os.getenv("ADMIN_NAME"),
+    "admin_passw": os.getenv("ADMIN_PASSW"),
 }
 
 

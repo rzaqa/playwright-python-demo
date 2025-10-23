@@ -1,0 +1,18 @@
+feature: "Admin Login"
+description: "Functional E2E requirement for administrator authentication on the Saleor Dashboard"
+version: "1.0"
+requirements:
+  - id: AUTH-ADMIN-LOGIN-001
+    title: "Successful admin login with valid credentials"
+    description: "Verify that an administrator can log in to the Saleor Dashboard using a valid email and password"
+    acceptance:
+      - "Login page is accessible at the base URL"
+      - "User is able to fill the Email field"
+      - "User is able to fill the Password field"
+      - "After clicking on Sign in button, user redirects to Saleor Dashboard"
+      - "Page title is 'Dashboard | Saleor e-commerce' "
+      - "Dashboard main view loads successfully, indicating successful authentication"
+      - "Logged-in admin email is displayed in the dashboard menu"
+    priority: High
+    test_files:
+      - "tests/ui/login/test_admin_login_success.py"

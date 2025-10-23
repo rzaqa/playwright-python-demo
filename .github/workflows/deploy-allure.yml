@@ -4,20 +4,15 @@ on:
   workflow_call:
     inputs:
       report-name:
-        description: "Artifact name containing Allure results"
-        required: true
-        type: string
-      publish-dir:
-        description: "Subdirectory name to deploy under (optional)"
         required: false
-        default: "."
+        default: "allure-results"
         type: string
 
 jobs:
   deploy-allure:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # required for pushing to gh-pages
+      contents: write
 
     steps:
       - name: 🛒 Checkout repo
@@ -25,28 +20,33 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: 📥 Download Allure results
+      # Download all Allure results (component + e2e)
+      - name: 📥 Download Allure results - Component
         uses: actions/download-artifact@v4
         with:
-          name: allure-results
-          path: allure-results
+          name: allure-results-component
+          path: merged-results/component
+
+      - name: 📥 Download Allure results - E2E
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-results-e2e
+          path: merged-results/e2e
 
       - name: 🧰 Install Allure CLI
-        run: npm install -g allure-commandline --save-dev
+        run: |
+          npm install -g allure-commandline --save-dev
+
+      # Merge both results into one folder
+      - name: 🧩 Merge Allure results
+        run: |
+          mkdir -p allure-results
+          cp -r merged-results/component/* allure-results/ || true
+          cp -r merged-results/e2e/* allure-results/ || true
 
       - name: 📊 Generate Allure Report
         run: |
           allure generate allure-results --clean -o allure-report
-
-      # 🧩 Ensure correct structure for GitHub Pages
-      # Move content up if report is nested (e.g. allure-report/component-tests/index.html)
-      - name: 🧹 Normalize Allure report directory
-        run: |
-          if [ -d "allure-report/component-tests" ]; then
-            mv allure-report/component-tests/* allure-report/
-            rm -rf allure-report/component-tests
-          fi
-          ls -R allure-report
 
       - name: 🚀 Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
@@ -54,5 +54,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-report
-          force_orphan: true       # ✅ ensures clean branch (no leftover commits)
-          destination_dir: ${{ inputs.publish-dir }}

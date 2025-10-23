@@ -10,13 +10,16 @@ on:
         default: "3.13"
         type: string
 
-env:
-  BASE_URL: https://saleor-dashboard-228462058101.europe-central2.run.app/
-  GRAPHQL_URL: https://saleor-228462058101.europe-central2.run.app/graphql/
-
 jobs:
   precheck:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    env:
+      ENV_TYPE: CI
+      BASE_URL: ${{ secrets.BASE_URL }}
+      GRAPHQL_URL: ${{ secrets.GRAPHQL_URL }}
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

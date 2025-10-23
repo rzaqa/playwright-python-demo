@@ -1,4 +1,4 @@
-name: Component UI Tests
+name: E2E UI Tests
 
 on:
   workflow_call:
@@ -8,17 +8,21 @@ on:
         default: "3.13"
         type: string
 
-env:
-  ENV_TYPE: CI
-  BASE_URL: ${{ secrets.BASE_URL }}
-  GRAPHQL_URL: ${{ secrets.GRAPHQL_URL }}
 
 jobs:
-  component-tests:
+  e2e-tests:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    env:
+      ENV_TYPE: CI
+      BASE_URL: ${{ secrets.BASE_URL }}
+      GRAPHQL_URL: ${{ secrets.GRAPHQL_URL }}
+      ADMIN_NAME: ${{ secrets.ADMIN_NAME }}
+      ADMIN_PASSW: ${{ secrets.ADMIN_PASSW }}
 
     steps:
-      - name: 🛒 Checkout repository
+      - name: 🛒 Checkout repo
         uses: actions/checkout@v4
 
       - name: 🐍 Set up Python
@@ -26,26 +30,26 @@ jobs:
         with:
           python-version: ${{ inputs.python-version }}
 
-      - name: 🧰 Install dependencies
+      - name: ⚙️ Install dependencies
         run: |
           python -m venv .venv
           source .venv/bin/activate
-          pip install --upgrade pip
           pip install -r requirements.txt
+          playwright install --with-deps chromium
 
       - name: 🎭 Install Playwright browsers
         run: |
           source .venv/bin/activate
           playwright install --with-deps chromium
 
-      - name: 🧪 Run Component UI tests
+      - name: 🧪 Run E2E Tests
         run: |
           source .venv/bin/activate
-          pytest tests/ui -v -s --alluredir=allure-results
+          pytest tests/e2e -v -s --alluredir=allure-results
 
       - name: 📦 Upload Allure results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-            name: allure-results-component
-            path: allure-results
+          name: allure-results-e2e
+          path: allure-results

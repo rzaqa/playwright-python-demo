@@ -4,12 +4,13 @@ import pytest
 from pages.signin_page import SignInPage
 from pages.dashboard_page import DashboardPage
 
-@allure.feature("Admin SignIn")
-@allure.title("E2E: Successful admin login with valid credentials")
+@allure.feature("E2E UI tests - Admin SignIn")
+@allure.title("AUTH-ADMIN-LOGIN-001: Successful admin login with valid credentials")
 @allure.tag("AUTH-ADMIN-LOGIN-001")
 @pytest.mark.ui
 @pytest.mark.smoke
 @pytest.mark.e2e
+@pytest.mark.positive
 def test_admin_login_success(page):
     """Verifies that an admin can log in successfully and reach the Dashboard."""
     # --- Test Data ---
@@ -29,4 +30,3 @@ def test_admin_login_success(page):
     with allure.step("Verify dashboard loads successfully and admin email is displayed in the dashboard menu"):
         dashboard_page.assert_dashboard_loaded_for_signed_in_admin(admin_name)
         dashboard_page.assert_page_title()
-

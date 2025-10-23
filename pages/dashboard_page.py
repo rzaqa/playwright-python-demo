@@ -25,7 +25,6 @@ class DashboardPage(BasePage):
 
     @allure.step("Validate all critical elements on Dashboard page for signed-in admin")
     def assert_dashboard_loaded_for_signed_in_admin(self, admin_email: str):
-        """Run soft checks on all key elements to verify the Dashboard loaded correctly."""
         self.soft_check("Dashboard title visible",
                         lambda: expect(self.dashboard_title).to_be_visible(timeout=5000))
         self.soft_check("Sidebar visible",

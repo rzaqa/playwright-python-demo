@@ -29,8 +29,8 @@ def derive_graphql_url(base_url: str) -> str:
 
 
 # Base URL
-BASE_URL = os.getenv("BASE_URL", "https://saleor-dashboard-228462058101.europe-central2.run.app/")
-
+BASE_URL = os.getenv("BASE_URL") or "https://saleor-dashboard-228462058101.europe-central2.run.app/"
+GRAPHQL_URL = os.getenv("GRAPHQL_URL") or "https://saleor-228462058101.europe-central2.run.app/graphql/"
 
 config = {
     "env_type": ENV_TYPE,
@@ -40,7 +40,7 @@ config = {
     "tests_dir": TESTS_DIR,
     "reports_dir": REPORTS_DIR,
     "base_url": BASE_URL,
-    "graphql_url": os.getenv("GRAPHQL_URL", derive_graphql_url(BASE_URL)),
+    "graphql_url": GRAPHQL_URL,
     "admin_name": os.getenv("ADMIN_NAME"),
     "admin_passw": os.getenv("ADMIN_PASSW"),
 }

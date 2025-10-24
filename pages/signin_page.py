@@ -25,18 +25,16 @@ class SignInPage(BasePage):
     def open_signin_page(self):
         self.open(config["base_url"])
 
-    @allure.step("Sign in with provided credentials")
     def sign_in(self, username: str, password: str):
-        """Fill login form and submit."""
-        self.email_input.fill(username)
-        self.password_input.fill(password)
-        self.sign_in_button.click()
+        with allure.step("Sign in with provided credentials"):
+            self.email_input.fill(username)
+            self.password_input.fill(password)
+            self.sign_in_button.click()
 
 
     # --- Asserts ---
     @allure.step("Validate all critical elements on Sign In page")
     def assert_page_elements(self):
-        """Run soft checks on all main UI elements."""
         self.soft_check("Logo", lambda: expect(self.logo).to_be_visible(timeout=3000))
         self.soft_check("Title 'Sign In'", lambda: expect(self.sign_in_title).to_be_visible())
         self.soft_check("Email input", lambda: expect(self.email_input).to_be_visible())
@@ -47,5 +45,4 @@ class SignInPage(BasePage):
         self.soft_check("Forgot password link", lambda: expect(self.forgot_password_link).to_be_visible())
         self.soft_check("Sign In button", lambda: expect(self.sign_in_button).to_be_visible())
 
-        # Final verification
         self.verify_soft_assertions()

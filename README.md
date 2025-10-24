@@ -1,3 +1,12 @@
+[![Playwright Tests](https://github.com/rzaqa/playwright-python-demo/actions/workflows/main.yml/badge.svg)](https://github.com/rzaqa/playwright-python-demo/actions/workflows/main.yml)
+
+# 🧪 Playwright + Python System Tests for Saleor Dashboard
+
+📊 **Allure Report:** [View Latest Report →](https://rzaqa.github.io/playwright-python-demo/)  
+⚙️ **Main Pipeline:** [View or Run Workflow →](https://github.com/rzaqa/playwright-python-demo/actions/workflows/main.yml)
+
+---
+
 ## 🧩 Testing Strategy and Scope
 
 This repository focuses on **system-level test automation** for the **Saleor Dashboard**  
@@ -14,7 +23,7 @@ It covers multiple testing layers:
 > Frontend **unit tests** (React components, validation logic, etc.) are **not** part of this repo.  
 > They should be implemented in the **frontend project** using tools like **Jest** or **Vitest**.
 
-
+---
 
 ## 🔹 Test Levels and Responsibilities
 
@@ -27,7 +36,7 @@ It covers multiple testing layers:
 | ⚙️ **System / Contract tests** | Validate consistency between UI ↔ API contracts and external integrations | `tests/contract/` | Pytest + Schemathesis / OpenAPI |
 | 📈 **Performance (optional)** | Basic API or UI performance checks | Optional | Locust / Playwright Trace Viewer |
 
-
+---
 
 ## 🔹 Philosophy
 
@@ -40,5 +49,3 @@ This project follows a clear testing ownership model:
 
 🧪 **Playwright** — validates real browser behavior (not unit-level logic).  
 📊 **Pytest + Allure** — provide rich reporting, tagging, and coverage tracking.
-
-

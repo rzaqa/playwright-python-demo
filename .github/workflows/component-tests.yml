@@ -37,7 +37,7 @@ jobs:
       - name: 🎭 Install Playwright browsers
         run: |
           source .venv/bin/activate
-          playwright install --with-deps chromium
+          playwright install --with-deps
 
       - name: 🧪 Run Component UI tests
         run: |

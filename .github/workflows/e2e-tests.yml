@@ -36,12 +36,11 @@ jobs:
           python -m venv .venv
           source .venv/bin/activate
           pip install -r requirements.txt
-          playwright install --with-deps chromium
 
       - name: 🎭 Install Playwright browsers
         run: |
           source .venv/bin/activate
-          playwright install --with-deps chromium
+          playwright install --with-deps
 
       - name: 🧪 Run E2E Tests
         run: |

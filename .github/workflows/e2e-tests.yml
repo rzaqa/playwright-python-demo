@@ -16,6 +16,7 @@ jobs:
 
     env:
       ENV_TYPE: CI
+      HEADLESS: "true"
       BASE_URL: ${{ secrets.BASE_URL }}
       GRAPHQL_URL: ${{ secrets.GRAPHQL_URL }}
       ADMIN_NAME: ${{ secrets.ADMIN_NAME }}

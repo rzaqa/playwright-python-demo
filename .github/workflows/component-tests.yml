@@ -10,6 +10,7 @@ on:
 
 env:
   ENV_TYPE: CI
+  HEADLESS: "true"
   BASE_URL: ${{ secrets.BASE_URL }}
   GRAPHQL_URL: ${{ secrets.GRAPHQL_URL }}
 

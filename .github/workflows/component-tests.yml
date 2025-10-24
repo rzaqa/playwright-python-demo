@@ -10,6 +10,7 @@ on:
 
 env:
   ENV_TYPE: CI
+  HEADLESS: "true"
   BASE_URL: ${{ secrets.BASE_URL }}
   GRAPHQL_URL: ${{ secrets.GRAPHQL_URL }}
 
@@ -36,7 +37,7 @@ jobs:
       - name: 🎭 Install Playwright browsers
         run: |
           source .venv/bin/activate
-          playwright install --with-deps chromium
+          playwright install --with-deps
 
       - name: 🧪 Run Component UI tests
         run: |

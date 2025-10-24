@@ -9,14 +9,13 @@ load_dotenv()
 ENV_TYPE = os.getenv("ENV_TYPE", "local")
 
 # Headless mode: always True in CI, configurable locally
-HEADLESS = True if ENV_TYPE == "CI" else False
+HEADLESS = os.getenv("HEADLESS", "true").lower() == "true"
 
 # Timeout settings
 DEFAULT_TIMEOUT = 10_000  # in milliseconds
 
 # Browsers to run tests on
-# BROWSERS = ["chromium", "firefox", "webkit"]
-BROWSERS = ["chromium"]
+BROWSERS = ["chromium", "firefox", "webkit"]
 
 # Folder paths
 TESTS_DIR = "tests"

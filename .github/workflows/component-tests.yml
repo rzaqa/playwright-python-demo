@@ -43,11 +43,13 @@ jobs:
         run: |
           echo "Python version:"
           python3 --version
+          echo "Installing pip..."
+          apt-get update && apt-get install -y python3-pip
           echo "Upgrading pip..."
           python3 -m pip install --upgrade pip
           echo "Installing project requirements..."
           python3 -m pip install -r requirements.txt
-          echo "Installing Playwright browsers..."
+          echo "Ensuring Playwright browsers are installed..."
           python3 -m playwright install --with-deps
 
       - name: 🧪 Run Component UI tests

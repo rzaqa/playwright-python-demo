@@ -13,40 +13,37 @@ env:
   HEADLESS: "true"
   BASE_URL: ${{ secrets.BASE_URL }}
   GRAPHQL_URL: ${{ secrets.GRAPHQL_URL }}
+  HOME: /root
 
 jobs:
   component-tests:
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.47.0-jammy
+    timeout-minutes: 15
 
     steps:
       - name: 🛒 Checkout repository
         uses: actions/checkout@v4
 
-      - name: 🐍 Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ inputs.python-version }}
+      - name: 🐍 Install Python
+        run: |
+          apt-get update && apt-get install -y python3 python3-pip
+          python3 -m pip install --upgrade pip
 
       - name: 🧰 Install dependencies
         run: |
-          python -m venv .venv
-          source .venv/bin/activate
           pip install --upgrade pip
           pip install -r requirements.txt
-
-      - name: 🎭 Install Playwright browsers
-        run: |
-          source .venv/bin/activate
           playwright install --with-deps
 
       - name: 🧪 Run Component UI tests
         run: |
-          source .venv/bin/activate
           pytest tests/ui -v -s --alluredir=allure-results
 
       - name: 📦 Upload Allure results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-            name: allure-results-component
-            path: allure-results
+          name: allure-results-component
+          path: allure-results

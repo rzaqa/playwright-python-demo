@@ -2,11 +2,6 @@ name: Deploy Allure Report to GitHub Pages
 
 on:
   workflow_call:
-    inputs:
-      report-name:
-        required: false
-        default: "allure-results"
-        type: string
 
 jobs:
   deploy-allure:
@@ -20,24 +15,21 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Download all Allure results (component + e2e)
-      - name: 📥 Download Allure results - Component
+      - name: 📥 Download Component results
         uses: actions/download-artifact@v4
         with:
           name: allure-results-component
           path: merged-results/component
 
-      - name: 📥 Download Allure results - E2E
+      - name: 📥 Download E2E results
         uses: actions/download-artifact@v4
         with:
           name: allure-results-e2e
           path: merged-results/e2e
 
       - name: 🧰 Install Allure CLI
-        run: |
-          npm install -g allure-commandline --save-dev
+        run: npm install -g allure-commandline --save-dev
 
-      # Merge both results into one folder
       - name: 🧩 Merge Allure results
         run: |
           mkdir -p allure-results
@@ -45,8 +37,7 @@ jobs:
           cp -r merged-results/e2e/* allure-results/ || true
 
       - name: 📊 Generate Allure Report
-        run: |
-          allure generate allure-results --clean -o allure-report
+        run: allure generate allure-results --clean -o allure-report
 
       - name: 🚀 Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4

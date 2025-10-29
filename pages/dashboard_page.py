@@ -19,9 +19,10 @@ class DashboardPage(BasePage):
     @allure.step("Assert Dashboard page title is correct")
     def assert_page_title(self):
         """Verify that browser tab title matches expected Saleor Dashboard title."""
-        title = self.page.title()
-        assert "Dashboard | Saleor e-commerce" in title, \
-            f"Unexpected page title: {title}"
+        expect(self.page).to_have_title(
+            "Dashboard | Saleor e-commerce",
+            timeout=10000
+        )
 
     @allure.step("Validate all critical elements on Dashboard page for signed-in admin")
     def assert_dashboard_loaded_for_signed_in_admin(self, admin_email: str):

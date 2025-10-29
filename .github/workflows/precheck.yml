@@ -2,7 +2,7 @@ name: Precheck Backend
 
 on:
   workflow_dispatch:     # manual trigger
-  workflow_call:         # reusable by other workflows
+  workflow_call:
     inputs:
       python-version:
         description: "Python version to use"

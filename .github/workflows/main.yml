@@ -15,23 +15,17 @@ jobs:
   precheck:
     name: 🧩 Backend Pre-Check
     uses: ./.github/workflows/precheck.yml
-    with:
-      python-version: "3.13"
 
   component-tests:
     name: 🧪 Component UI Tests
     needs: precheck
     uses: ./.github/workflows/component-tests.yml
-    with:
-      python-version: "3.13"
     secrets: inherit
 
   e2e-tests:
     name: 🎯 End-to-End UI Tests
     needs: precheck
     uses: ./.github/workflows/e2e-tests.yml
-    with:
-      python-version: "3.13"
     secrets: inherit
 
   deploy-report:

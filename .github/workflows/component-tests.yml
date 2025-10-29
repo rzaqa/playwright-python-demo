@@ -20,22 +20,37 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.47.0-jammy
+      options: --ipc=host
     timeout-minutes: 15
 
     steps:
       - name: 🛒 Checkout repository
         uses: actions/checkout@v4
 
-      - name: 🐍 Install Python
-        run: |
-          apt-get update && apt-get install -y python3 python3-pip
-          python3 -m pip install --upgrade pip
+      - name: 💾 Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/requirements.txt') }}
+
+      - name: 💾 Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
 
       - name: 🧰 Install dependencies
         run: |
-          pip install --upgrade pip
-          pip install -r requirements.txt
-          playwright install --with-deps
+          echo "Python version:"
+          python3 --version
+          echo "Installing pip..."
+          apt-get update && apt-get install -y python3-pip
+          echo "Upgrading pip..."
+          python3 -m pip install --upgrade pip
+          echo "Installing project requirements..."
+          python3 -m pip install -r requirements.txt
+          echo "Ensuring Playwright browsers are installed..."
+          python3 -m playwright install --with-deps
 
       - name: 🧪 Run Component UI tests
         run: |
